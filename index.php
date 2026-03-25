@@ -81,7 +81,7 @@
 
 <!-- ─── COURSE GRID ──────────────────────────────────────────── -->
 <?php
-include _DIR_ . '/config/db.php';
+include __DIR__ . '/config/db.php';
 
 $search = trim($_GET['q'] ?? '');
 $level  = $_GET['level'] ?? '';
