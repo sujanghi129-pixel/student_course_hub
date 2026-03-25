@@ -1,0 +1,212 @@
+/* ─── FIX ADMIN.CSS CONFLICT ───────────────────────────── */
+.main-layout {
+    display: block !important;
+    padding: 0 !important;
+    overflow: auto !important;
+}
+
+/* REMOVE CENTER ALIGNMENT */
+.main-layout {
+    display: flex !important;
+    align-items: stretch !important;
+    justify-content: flex-start !important;
+}
+
+/* ── SIDEBAR ───────────────────────────────────────────── */
+.sidebar {
+    width: 240px;
+    background: #020617;
+    min-height: 100vh;
+    padding: 1.5rem 1rem;
+    flex-shrink: 0;
+}
+
+.sidebar a {
+    text-decoration: none;
+    color: var(--muted);
+}
+
+.sidebar-nav {
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0;
+}
+
+.sidebar-link {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.6rem 0.8rem;
+    border-radius: 6px;
+    transition: 0.2s;
+}
+
+.sidebar-link:hover {
+    background: rgba(255,255,255,0.05);
+    color: var(--white);
+}
+
+.sidebar-link.active {
+    background: rgba(46,232,197,0.1);
+    color: var(--white);
+}
+
+/* ── MAIN CONTENT ─────────────────────────────────────── */
+.main {
+    flex: 1;
+    padding: 2rem;
+}
+
+/* REMOVE CENTER LIMIT FROM ADMIN.CSS */
+.content {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+/* ── HEADER ───────────────────────────────────────────── */
+.page-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.page-title {
+    font-size: 1.8rem;
+    font-weight: 800;
+}
+
+/* ── BUTTON ───────────────────────────────────────────── */
+.btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: linear-gradient(135deg, var(--teal), var(--sky));
+    color: #000;
+    padding: 0.5rem 0.9rem;
+    border-radius: 6px;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+/* ── PANEL ───────────────────────────────────────────── */
+.panel {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin-top: 1rem;
+    overflow: hidden;
+}
+
+/* ── TOOLBAR ─────────────────────────────────────────── */
+.students-toolbar {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem;
+    border-bottom: 1px solid var(--border);
+}
+
+/* ── SEARCH ─────────────────────────────────────────── */
+.search-wrap {
+    position: relative;
+    flex: 1;
+}
+
+.search-input {
+    width: 100%;
+    padding: 0.6rem 2rem;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: var(--panel);
+    color: var(--white);
+}
+
+/* ── TABLE ─────────────────────────────────────────── */
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.data-table th {
+    text-align: left;
+    padding: 0.7rem 1rem;
+    font-size: 0.75rem;
+    color: var(--muted);
+    border-bottom: 1px solid var(--border);
+}
+
+.data-table td {
+    padding: 0.9rem 1rem;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.data-table tr:hover {
+    background: rgba(255,255,255,0.03);
+}
+
+/* ── STUDENT CELL ───────────────────────────────────── */
+.student-cell {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.student-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--teal), var(--sky));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #000;
+    font-weight: bold;
+}
+
+.student-name {
+    font-weight: 600;
+}
+
+.student-email {
+    font-size: 0.75rem;
+    color: var(--muted);
+}
+
+/* ── BADGES ─────────────────────────────────────────── */
+.level-badge {
+    padding: 0.25rem 0.6rem;
+    border-radius: 5px;
+    font-size: 0.7rem;
+    font-weight: 700;
+}
+
+.level-ug {
+    background: rgba(94,184,247,0.1);
+    color: var(--sky);
+}
+
+.level-pg {
+    background: rgba(247,185,85,0.1);
+    color: orange;
+}
+
+/* ── DELETE BUTTON ─────────────────────────────────── */
+.delete-btn {
+    background: rgba(239,68,68,0.1);
+    border: 1px solid rgba(239,68,68,0.3);
+    color: #fca5a5;
+    padding: 0.4rem 0.7rem;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.delete-btn:hover {
+    background: rgba(239,68,68,0.2);
+}
+
+/* ── RESPONSIVE ───────────────────────────────────── */
+@media (max-width: 768px) {
+    .sidebar {
+        display: none;
+    }
+}
