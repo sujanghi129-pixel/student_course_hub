@@ -1,16 +1,13 @@
 <?php
-// run this script once (via browser or CLI) to insert a known admin user
-require_once __DIR__ . '/config/db.php';
+require_once '../config/db.php';
 
-$email = 'acharyarajan063@gmail.com';
-$password = '123';
+$name = "Admin";
+$email = "admin@gmail.com";
+$password = password_hash("123456", PASSWORD_DEFAULT);
 
-$hash = password_hash($password, PASSWORD_DEFAULT);
-$stmt = $conn->prepare('INSERT INTO admins (email, password) VALUES (?, ?)');
-$stmt->bind_param('ss', $email, $hash);
-if ($stmt->execute()) {
-    echo "Admin user inserted: $email\n";
-} else {
-    echo "Error inserting admin: " . $conn->error;
-}
-?>
+$conn->query("
+    INSERT INTO admins (Name, Email, Password)
+    VALUES ('$name', '$email', '$password')
+");
+
+echo "Admin created!";
