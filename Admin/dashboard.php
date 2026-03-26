@@ -54,6 +54,9 @@ if ($r)
 
     <!-- ── SIDEBAR ─────────────────────────────────────────── -->
     <aside class="sidebar" id="sidebar">
+        <?php if ($_SESSION['role'] === 'admin'): ?>
+        <li><a href="create_admin.php">Create User</a></li>
+        <?php endif; ?>
         <div class="sidebar-inner">
 
             <div class="sidebar-logo">
