@@ -5,6 +5,7 @@ if (!isset($_SESSION['admin_id'])) {
     header('Location: login.php');
     exit;
 }
+$isAdmin = ($_SESSION['role'] === 'admin');
 
 require_once '../config/db.php';
 
