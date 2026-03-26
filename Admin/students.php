@@ -9,6 +9,8 @@ $isAdmin = ($_SESSION['role'] === 'admin');
 
 require_once '../config/db.php';
 
+
+
 // ── DELETE ──────────────────────────────────────────────────
 if (isset($_GET['delete']) && is_numeric($_GET['delete'])) {
     $id   = (int)$_GET['delete'];
@@ -335,6 +337,9 @@ modalOverlay.addEventListener('click', e => { if (e.target === modalOverlay) clo
 const toast = document.getElementById('toast');
 if (toast) setTimeout(() => toast.classList.add('toast-hide'), 3500);
 </script>
+<?php if ($isAdmin): ?>
+    <button>Add Student</button>
+<?php endif; ?>
 
 </body>
 </html>

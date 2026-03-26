@@ -4,7 +4,7 @@ if (!isset($_SESSION['admin_id'])) {
     header('Location: login.php');
     exit;
 }
-
+$isAdmin = ($_SESSION['role'] === 'admin');
 require_once '../config/db.php';
 
 /* ── ADD PROGRAMME ── */
@@ -183,3 +183,6 @@ $total = count($rows);
 
 </body>
 </html>
+<?php if ($isAdmin): ?>
+    <button>Add Student</button>
+<?php endif; ?>

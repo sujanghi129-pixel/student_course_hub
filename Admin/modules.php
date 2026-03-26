@@ -5,6 +5,7 @@ if (!isset($_SESSION['admin_id'])) {
     exit;
 }
 require_once '../config/db.php';
+$isAdmin = ($_SESSION['role'] === 'admin');
 
 // handle create
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['name'])) {
@@ -58,3 +59,6 @@ $modules = $conn->query('SELECT * FROM Modules');
 </div>
 </body>
 </html>
+<?php if ($isAdmin): ?>
+    <button>Add Student</button>
+<?php endif; ?>
