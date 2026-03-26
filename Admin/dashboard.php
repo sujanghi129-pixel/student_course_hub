@@ -96,7 +96,7 @@ if ($r)
                                 <path d="M16 3.13a4 4 0 0 1 0 7.75" />
                             </svg>
                             Students
-                            <?php if ($stats['students'] > 0): ?>
+                            <?php if (isset($stats['students']) && $stats['students'] > 0): ?>
                                 <span class="sidebar-badge"><?php echo $stats['students']; ?></span>
                             <?php endif; ?>
                         </a>
