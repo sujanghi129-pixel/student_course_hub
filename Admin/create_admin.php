@@ -30,36 +30,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Create User</title>
-</head>
-<body>
+<link rel="stylesheet" href="../css/create_admin.css">
 
-<h2>Create New User</h2>
+<div class="container">
 
-<?php if ($message): ?>
-    <p><?php echo $message; ?></p>
-<?php endif; ?>
+    <h2>Create User</h2>
 
-<form method="POST">
+    <?php if ($message): ?>
+        <p class="success"><?php echo $message; ?></p>
+    <?php endif; ?>
 
-    <label>Email:</label><br>
-    <input type="email" name="email" required><br><br>
+    <form method="POST">
 
-    <label>Password:</label><br>
-    <input type="password" name="password" required><br><br>
+        <input type="email" name="email" placeholder="Enter email" required>
 
-    <label>Role:</label><br>
-    <select name="role">
-        <option value="staff">Staff</option>
-        <option value="admin">Admin</option>
-    </select><br><br>
+        <input type="password" name="password" placeholder="Enter password" required>
 
-    <button type="submit">Create User</button>
+        <select name="role">
+            <option value="staff">Staff</option>
+            <option value="admin">Admin</option>
+        </select>
 
-</form>
+        <button type="submit">Create User</button>
 
-</body>
-</html>
+    </form>
+
+</div>

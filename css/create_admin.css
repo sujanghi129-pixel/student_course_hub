@@ -1,0 +1,77 @@
+/* Background */
+body {
+    margin: 0;
+    font-family: 'DM Sans', sans-serif;
+    background: radial-gradient(circle at top, #0f2027, #0a0f1c);
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Card */
+.container {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(12px);
+    border-radius: 16px;
+    padding: 40px;
+    width: 400px;
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.6);
+}
+
+/* Title */
+.container h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    font-weight: 600;
+}
+
+/* Input fields */
+.container input,
+.container select {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    border: none;
+    background: rgba(255,255,255,0.08);
+    color: #fff;
+    outline: none;
+}
+
+/* Placeholder */
+.container input::placeholder {
+    color: #aaa;
+}
+
+/* Button */
+.container button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 25px;
+    background: linear-gradient(90deg, #00c6ff, #0072ff);
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+/* Hover */
+.container button:hover {
+    transform: scale(1.05);
+}
+
+/* Message */
+.success {
+    color: #4cffb0;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.error {
+    color: #ff6b6b;
+    text-align: center;
+    margin-bottom: 10px;
+}
