@@ -54,5 +54,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <button type="submit">Create User</button>
 
     </form>
+    <a href="dashboard.php" class="back-link" aria-label="Back to student-facing site">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="19" y1="12" x2="5" y2="12"/>
+            <polyline points="12 19 5 12 12 5"/>
+        </svg>
+        Back to dashboard
+    </a>
 
 </div>
