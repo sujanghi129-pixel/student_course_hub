@@ -5,11 +5,8 @@ if (!isset($_SESSION['admin_id'])) {
     header('Location: login.php');
     exit;
 }
-$isAdmin = ($_SESSION['role'] === 'admin');
 
 require_once '../config/db.php';
-
-
 
 // ── DELETE ──────────────────────────────────────────────────
 if (isset($_GET['delete']) && is_numeric($_GET['delete'])) {
@@ -46,8 +43,201 @@ $deleted    = isset($_GET['deleted']);
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../css/admin.css">
-    <link rel="stylesheet" href="../css/student.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <style>
+        /* ── STUDENTS TOOLBAR ─────────────────────────────── */
+        .students-toolbar {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        /* ── SEARCH ──────────────────────────────────────── */
+        .search-wrap {
+            position: relative;
+            flex: 1;
+            min-width: 180px;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 0.7rem;
+            color: var(--muted);
+            pointer-events: none;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.55rem 2.2rem 0.55rem 2.2rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: var(--panel);
+            color: var(--white);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.88rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .search-input:focus {
+            border-color: rgba(46,232,197,0.45);
+            box-shadow: 0 0 0 3px rgba(46,232,197,0.08);
+        }
+
+        .search-input::placeholder { color: var(--muted); }
+
+        .search-clear {
+            position: absolute;
+            right: 0.6rem;
+            background: none;
+            border: none;
+            color: var(--muted);
+            cursor: pointer;
+            padding: 0.15rem;
+            display: flex;
+            align-items: center;
+        }
+        .search-clear:hover { color: var(--white); }
+
+        .result-count {
+            font-size: 0.82rem;
+            color: var(--muted);
+            white-space: nowrap;
+        }
+
+        /* ── LEVEL BADGES ────────────────────────────────── */
+        .level-badge {
+            padding: 0.25rem 0.6rem;
+            border-radius: 5px;
+            font-size: 0.7rem;
+            font-weight: 700;
+        }
+
+        .level-ug {
+            background: rgba(94,184,247,0.1);
+            color: var(--sky);
+        }
+
+        .level-pg {
+            background: rgba(247,185,85,0.1);
+            color: orange;
+        }
+
+        /* ── DELETE BUTTON ───────────────────────────────── */
+        .delete-btn {
+            background: rgba(239,68,68,0.1);
+            border: 1px solid rgba(239,68,68,0.3);
+            color: #fca5a5;
+            padding: 0.4rem 0.7rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.82rem;
+            transition: background 0.2s;
+        }
+        .delete-btn:hover { background: rgba(239,68,68,0.2); }
+
+        /* ── TABLE ACTION COLUMN ─────────────────────────── */
+        .th-action { text-align: right; }
+        .data-table td:last-child { text-align: right; }
+
+        /* ── TOAST ───────────────────────────────────────── */
+        .toast {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.7rem 1rem;
+            border-radius: 8px;
+            font-size: 0.88rem;
+            margin-bottom: 1rem;
+            animation: fadeIn 0.3s ease;
+        }
+        .toast-success {
+            background: rgba(46,232,197,0.1);
+            border: 1px solid rgba(46,232,197,0.3);
+            color: var(--teal);
+        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* ── MODAL ───────────────────────────────────────── */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            z-index: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(4px);
+        }
+
+        .modal {
+            background: var(--ink);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            max-width: 380px;
+            width: 90%;
+            box-shadow: 0 24px 48px rgba(0,0,0,0.5);
+        }
+
+        .modal-icon {
+            width: 44px; height: 44px;
+            border-radius: 50%;
+            background: rgba(239,68,68,0.12);
+            display: flex; align-items: center; justify-content: center;
+            margin-bottom: 1rem;
+            color: #fca5a5;
+        }
+
+        .modal-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 0.5rem;
+        }
+
+        .modal-body {
+            font-size: 0.88rem;
+            color: var(--muted);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 0.75rem;
+            justify-content: flex-end;
+        }
+
+        .modal-btn-cancel {
+            padding: 0.55rem 1.1rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--muted);
+            cursor: pointer;
+            font-size: 0.88rem;
+            transition: background 0.2s, color 0.2s;
+        }
+        .modal-btn-cancel:hover { background: var(--panel); color: var(--white); }
+
+        .modal-btn-delete {
+            padding: 0.55rem 1.1rem;
+            border-radius: 8px;
+            background: rgba(239,68,68,0.85);
+            color: #fff;
+            font-weight: 600;
+            font-size: 0.88rem;
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+        .modal-btn-delete:hover { background: rgba(239,68,68,1); }
+    </style>
 </head>
 <body>
 
@@ -337,9 +527,6 @@ modalOverlay.addEventListener('click', e => { if (e.target === modalOverlay) clo
 const toast = document.getElementById('toast');
 if (toast) setTimeout(() => toast.classList.add('toast-hide'), 3500);
 </script>
-<?php if ($isAdmin): ?>
-    <button>Add Student</button>
-<?php endif; ?>
 
 </body>
 </html>
