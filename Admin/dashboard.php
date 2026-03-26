@@ -54,9 +54,7 @@ if ($r)
 
     <!-- ── SIDEBAR ─────────────────────────────────────────── -->
     <aside class="sidebar" id="sidebar">
-        <?php if ($_SESSION['role'] === 'admin'): ?>
-        <li><a href="create_admin.php">Create User</a></li>
-        <?php endif; ?>
+
         <div class="sidebar-inner">
 
             <div class="sidebar-logo">
@@ -110,6 +108,21 @@ if ($r)
                             Programmes
                         </a>
                     </li>
+
+                    <li>
+                        <a href="create_admin.php" class="sidebar-link">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+                                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+                            </svg>
+                            Create users
+                        </a>
+                    </li>
+
+
+
+
                     <li>
                         <a href="modules.php" class="sidebar-link">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -393,7 +406,8 @@ if ($r)
                                                     </div>
                                                     <div>
                                                         <p class="student-name">
-                                                            <?php echo htmlspecialchars($reg['StudentName']); ?></p>
+                                                            <?php echo htmlspecialchars($reg['StudentName']); ?>
+                                                        </p>
                                                         <p class="student-email"><?php echo htmlspecialchars($reg['Email']); ?>
                                                         </p>
                                                     </div>
