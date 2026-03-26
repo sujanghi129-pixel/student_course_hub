@@ -337,9 +337,7 @@ modalOverlay.addEventListener('click', e => { if (e.target === modalOverlay) clo
 const toast = document.getElementById('toast');
 if (toast) setTimeout(() => toast.classList.add('toast-hide'), 3500);
 </script>
-<?php if ($isAdmin): ?>
-    <button>Add Student</button>
-<?php endif; ?>
+
 
 </body>
 </html>
