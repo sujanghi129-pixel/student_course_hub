@@ -9,6 +9,8 @@ $isAdmin = ($_SESSION['role'] === 'admin');
 
 require_once '../config/db.php';
 
+$staffResult = $conn->query("SELECT * FROM staff");
+
 // Fetch quick stats
 $stats = [];
 
@@ -34,6 +36,7 @@ if ($r)
     while ($row = $r->fetch_assoc())
         $recent[] = $row;
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -367,6 +370,30 @@ if ($r)
                                 <polyline points="9 18 15 12 9 6" />
                             </svg>
                         </a>
+                    </div>
+                </section>
+                <section class="panel">
+                    <div class="panel-header">
+                        <h2 class="panel-title">Staff Members</h2>
+                    </div>
+
+                    <div class="table-wrap">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php while ($row = $staffResult->fetch_assoc()): ?>
+                                    <tr>
+                                        <td><?= $row['StaffID'] ?></td>
+                                        <td><?= htmlspecialchars($row['Name']) ?></td>
+                                    </tr>
+                                <?php endwhile; ?>
+                            </tbody>
+                        </table>
                     </div>
                 </section>
 

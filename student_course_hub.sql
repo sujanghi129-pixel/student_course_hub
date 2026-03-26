@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 26, 2026 at 04:51 PM
+-- Generation Time: Mar 26, 2026 at 05:30 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -40,7 +40,9 @@ CREATE TABLE `admins` (
 --
 
 INSERT INTO `admins` (`id`, `name`, `email`, `password`, `role`) VALUES
-(3, 'Rajan', 'acharyarajan063@gmail.com', '$2y$10$GlWr6JOOncktqgnm42KJWegkeeu/wYN5QQQT0p4Yv4CSaVuELPgNa', 'admin');
+(3, 'Rajan', 'acharyarajan063@gmail.com', '$2y$10$GlWr6JOOncktqgnm42KJWegkeeu/wYN5QQQT0p4Yv4CSaVuELPgNa', 'admin'),
+(4, NULL, 'sujan@gmail.com', '$2y$10$rsmWwP928fkIGnRoRHTmuOgC9c3EuNmXHiXJM9q03sEVbJxv9ZuwO', 'staff'),
+(5, NULL, 'admin@gmail.com', '$2y$10$ToIi4AftMHhKJGLurp0C/uL4m2DJguiRQGX/gC3JQG9.JKlYfYxPu', 'staff');
 
 -- --------------------------------------------------------
 
@@ -371,7 +373,7 @@ ALTER TABLE `staff`
 -- AUTO_INCREMENT for table `admins`
 --
 ALTER TABLE `admins`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `interestedstudents`
