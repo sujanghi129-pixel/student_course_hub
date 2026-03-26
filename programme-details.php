@@ -76,6 +76,33 @@ while ($m = $modulesResult->fetch_assoc()) {
 
 $stmt->close();
 $stmt2->close();
+
+// Fetch other programmes that share any module with this one
+// Result: ModuleID => [ ['ProgrammeID'=>..., 'ProgrammeName'=>...], ... ]
+$stmt3 = $conn->prepare(
+    "SELECT pm2.ModuleID,
+            p2.ProgrammeID,
+            p2.ProgrammeName
+     FROM   ProgrammeModules pm2
+     JOIN   Programmes p2 ON pm2.ProgrammeID = p2.ProgrammeID
+     WHERE  pm2.ModuleID IN (
+                SELECT ModuleID FROM ProgrammeModules WHERE ProgrammeID = ?
+            )
+       AND  pm2.ProgrammeID <> ?
+     ORDER  BY p2.ProgrammeName"
+);
+$stmt3->bind_param("ii", $programmeId, $programmeId);
+$stmt3->execute();
+$sharedResult = $stmt3->get_result();
+
+$sharedProgrammes = []; // [ moduleId => [ ['ProgrammeID'=>..,'ProgrammeName'=>..], .. ] ]
+while ($row = $sharedResult->fetch_assoc()) {
+    $sharedProgrammes[(int)$row['ModuleID']][] = [
+        'ProgrammeID'   => $row['ProgrammeID'],
+        'ProgrammeName' => $row['ProgrammeName'],
+    ];
+}
+$stmt3->close();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -90,6 +117,43 @@ $stmt2->close();
     <link rel="stylesheet" href="css/style.css">
 
     <style>
+    /* ── SHARED-MODULE BADGES ── */
+    .pd-shared-row {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.4rem;
+        margin-top: 0.55rem;
+    }
+    .pd-shared-label {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.3rem;
+        font-size: 0.72rem;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: var(--muted);
+        white-space: nowrap;
+    }
+    .pd-shared-badge {
+        display: inline-block;
+        font-size: 0.72rem;
+        font-weight: 500;
+        padding: 0.18rem 0.6rem;
+        border-radius: 999px;
+        background: rgba(94,184,247,0.10);
+        color: var(--sky);
+        border: 1px solid rgba(94,184,247,0.28);
+        text-decoration: none;
+        transition: background var(--transition), border-color var(--transition);
+        white-space: nowrap;
+    }
+    .pd-shared-badge:hover {
+        background: rgba(94,184,247,0.22);
+        border-color: rgba(94,184,247,0.55);
+    }
+
     /* ── PAGE-SPECIFIC OVERRIDES ── */
 
     /* Hero banner */
@@ -665,6 +729,26 @@ $stmt2->close();
                                                 <?php echo htmlspecialchars(mb_strimwidth($mod['ModuleDesc'], 0, 120, '…')); ?>
                                             </p>
                                         <?php endif; ?>
+
+                                        <?php
+                                        $mid = (int)$mod['ModuleID'];
+                                        if (!empty($sharedProgrammes[$mid])):
+                                        ?>
+                                        <div class="pd-shared-row" aria-label="Also taught in">
+                                            <span class="pd-shared-label">
+                                                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+                                                Also in
+                                            </span>
+                                            <?php foreach ($sharedProgrammes[$mid] as $sp): ?>
+                                                <a href="programme-details.php?id=<?php echo (int)$sp['ProgrammeID']; ?>"
+                                                   class="pd-shared-badge"
+                                                   title="View <?php echo htmlspecialchars($sp['ProgrammeName']); ?>">
+                                                    <?php echo htmlspecialchars($sp['ProgrammeName']); ?>
+                                                </a>
+                                            <?php endforeach; ?>
+                                        </div>
+                                        <?php endif; ?>
+
                                     </div>
                                 </div>
                             <?php endforeach; ?>
