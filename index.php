@@ -15,7 +15,7 @@
 
 <!-- ─── NAVIGATION ──────────────────────────────────────────── -->
 <nav class="nav">
-    <a href="index.php" class="nav-logo">Student <span>Course Hub</span></a>
+    <a href="index.php" class="nav-logo">Niels <span> Brock University</span></a>
     <input type="checkbox" id="nav-toggle" class="nav-toggle" style="display:none;">
     <label for="nav-toggle" class="nav-toggle-label" aria-label="Toggle menu">&#9776;</label>
     <ul class="nav-links">
@@ -406,7 +406,7 @@ while ($r = $progRes->fetch_assoc()) $progOpts[] = $r;
 <footer class="footer" id="contact">
     <div class="footer-grid">
         <div>
-            <p class="footer-brand">Student <span>Course Hub</span></p>
+            <p class="footer-brand">Niels<span> Brock University</span></p>
             <p class="footer-desc">Your gateway to undergraduate and postgraduate programmes. Explore, compare, and register your interest in seconds.</p>
         </div>
         <div>
