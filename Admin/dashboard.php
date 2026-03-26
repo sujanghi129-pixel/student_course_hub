@@ -2,8 +2,8 @@
 session_start();
 
 if (!isset($_SESSION['admin_id'])) {
-    header('Location: login.php');
-    exit;
+    header("Location: login.php");
+    exit();
 }
 
 require_once '../config/db.php';
