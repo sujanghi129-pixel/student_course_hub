@@ -527,10 +527,6 @@ modalOverlay.addEventListener('click', e => { if (e.target === modalOverlay) clo
 const toast = document.getElementById('toast');
 if (toast) setTimeout(() => toast.classList.add('toast-hide'), 3500);
 </script>
-<<<<<<< HEAD
-=======
-
->>>>>>> a1dddadaa4f403f282a05f34584a6a0d22a38dc7
 
 </body>
 </html>
