@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 26, 2026 at 05:30 PM
+-- Generation Time: Mar 26, 2026 at 10:27 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -32,17 +32,36 @@ CREATE TABLE `admins` (
   `name` varchar(100) DEFAULT NULL,
   `email` varchar(100) DEFAULT NULL,
   `password` varchar(255) DEFAULT NULL,
-  `role` enum('admin','staff') DEFAULT 'staff'
+  `role` enum('admin','staff') DEFAULT 'staff',
+  `staff_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `admins`
 --
 
-INSERT INTO `admins` (`id`, `name`, `email`, `password`, `role`) VALUES
-(3, 'Rajan', 'acharyarajan063@gmail.com', '$2y$10$GlWr6JOOncktqgnm42KJWegkeeu/wYN5QQQT0p4Yv4CSaVuELPgNa', 'admin'),
-(4, NULL, 'sujan@gmail.com', '$2y$10$rsmWwP928fkIGnRoRHTmuOgC9c3EuNmXHiXJM9q03sEVbJxv9ZuwO', 'staff'),
-(5, NULL, 'admin@gmail.com', '$2y$10$ToIi4AftMHhKJGLurp0C/uL4m2DJguiRQGX/gC3JQG9.JKlYfYxPu', 'staff');
+INSERT INTO `admins` (`id`, `name`, `email`, `password`, `role`, `staff_id`) VALUES
+(3, 'Rajan', 'acharyarajan063@gmail.com', '$2y$10$GlWr6JOOncktqgnm42KJWegkeeu/wYN5QQQT0p4Yv4CSaVuELPgNa', 'admin', NULL),
+(6, 'Dr Alice', 'staff1@university.com', '$2y$10$3bA4yYxTcOvMduxLcatEIeZgLtwxenx1BpfVV6np8/4XIa4XYlcSG', 'staff', 1),
+(7, 'Dr Brian', 'staff2@university.com', '$2y$10$nYRZzdhBCqls6kAJC.VIJeq8nXRdCCXrXDSRruiFtCv38XP1/Ki/i', 'staff', 2),
+(8, 'Dr Carol White', 'staff3@university.com', '$2y$10$8o3sV10CmmJAU5ADCRtN7.2WZ.ynC/eJBoOVmjgxxCI/1qZeVpUfq', 'staff', 3),
+(9, 'Dr David Green', 'staff4@university.com', '$2y$10$ym8MZmLcbdn5ScOStqMr3eFlCazskTqA2fEO0q0g2HyBctYjNcLki', 'staff', 4),
+(10, 'Dr Emma Scott', 'staff5@university.com', '$2y$10$zjQ4UXXRymfLEo8irFsck.ken7u/7ok4SrMcZgyqXVlZFYXCIfoZe', 'staff', 5),
+(11, 'Dr Frank Moore', 'staff6@university.com', '$2y$10$zjQ4UXXRymfLEo8irFsck.ken7u/7ok4SrMcZgyqXVlZFYXCIfoZe', 'staff', 6),
+(12, 'Dr Grace Adams', 'staff7@university.com', '$2y$10$zjQ4UXXRymfLEo8irFsck.ken7u/7ok4SrMcZgyqXVlZFYXCIfoZe', 'staff', 7),
+(13, 'Dr Henry Clark', 'staff8@university.com', '$2y$10$zjQ4UXXRymfLEo8irFsck.ken7u/7ok4SrMcZgyqXVlZFYXCIfoZe', 'staff', 8),
+(14, 'Dr Irene Hall', 'staff9@university.com', '$2y$10$zjQ4UXXRymfLEo8irFsck.ken7u/7ok4SrMcZgyqXVlZFYXCIfoZe', 'staff', 9),
+(15, 'Dr James Wright', 'staff10@university.com', '$2y$10$zjQ4UXXRymfLEo8irFsck.ken7u/7ok4SrMcZgyqXVlZFYXCIfoZe', 'staff', 10),
+(16, 'Dr Sophia Miller', 'staff11@university.com', '$2y$10$zjQ4UXXRymfLEo8irFsck.ken7u/7ok4SrMcZgyqXVlZFYXCIfoZe', 'staff', 11),
+(17, 'Dr Benjamin Carter', 'staff12@university.com', '$2y$10$zjQ4UXXRymfLEo8irFsck.ken7u/7ok4SrMcZgyqXVlZFYXCIfoZe', 'staff', 12),
+(18, 'Dr Chloe Thompson', 'staff13@university.com', '$2y$10$zjQ4UXXRymfLEo8irFsck.ken7u/7ok4SrMcZgyqXVlZFYXCIfoZe', 'staff', 13),
+(19, 'Dr Daniel Robinson', 'staff14@university.com', '$2y$10$zjQ4UXXRymfLEo8irFsck.ken7u/7ok4SrMcZgyqXVlZFYXCIfoZe', 'staff', 14),
+(20, 'Dr Emily Davis', 'staff15@university.com', '$2y$10$zjQ4UXXRymfLEo8irFsck.ken7u/7ok4SrMcZgyqXVlZFYXCIfoZe', 'staff', 15),
+(21, 'Dr Nathan Hughes', 'staff16@university.com', '$2y$10$zjQ4UXXRymfLEo8irFsck.ken7u/7ok4SrMcZgyqXVlZFYXCIfoZe', 'staff', 16),
+(22, 'Dr Olivia Martin', 'staff17@university.com', '$2y$10$zjQ4UXXRymfLEo8irFsck.ken7u/7ok4SrMcZgyqXVlZFYXCIfoZe', 'staff', 17),
+(23, 'Dr Samuel Anderson', 'staff18@university.com', '$2y$10$zjQ4UXXRymfLEo8irFsck.ken7u/7ok4SrMcZgyqXVlZFYXCIfoZe', 'staff', 18),
+(24, 'Dr Victoria Hall', 'staff19@university.com', '$2y$10$zjQ4UXXRymfLEo8irFsck.ken7u/7ok4SrMcZgyqXVlZFYXCIfoZe', 'staff', 19),
+(25, 'Dr William Scott', 'staff20@university.com', '$2y$10$zjQ4UXXRymfLEo8irFsck.ken7u/7ok4SrMcZgyqXVlZFYXCIfoZe', 'staff', 20);
 
 -- --------------------------------------------------------
 
@@ -283,34 +302,35 @@ INSERT INTO `programmes` (`ProgrammeID`, `ProgrammeName`, `LevelID`, `ProgrammeL
 
 CREATE TABLE `staff` (
   `StaffID` int(11) NOT NULL,
-  `Name` text NOT NULL
+  `Name` text NOT NULL,
+  `email` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `staff`
 --
 
-INSERT INTO `staff` (`StaffID`, `Name`) VALUES
-(1, 'Dr. Alice Johnson'),
-(2, 'Dr. Brian Lee'),
-(3, 'Dr. Carol White'),
-(4, 'Dr. David Green'),
-(5, 'Dr. Emma Scott'),
-(6, 'Dr. Frank Moore'),
-(7, 'Dr. Grace Adams'),
-(8, 'Dr. Henry Clark'),
-(9, 'Dr. Irene Hall'),
-(10, 'Dr. James Wright'),
-(11, 'Dr. Sophia Miller'),
-(12, 'Dr. Benjamin Carter'),
-(13, 'Dr. Chloe Thompson'),
-(14, 'Dr. Daniel Robinson'),
-(15, 'Dr. Emily Davis'),
-(16, 'Dr. Nathan Hughes'),
-(17, 'Dr. Olivia Martin'),
-(18, 'Dr. Samuel Anderson'),
-(19, 'Dr. Victoria Hall'),
-(20, 'Dr. William Scott');
+INSERT INTO `staff` (`StaffID`, `Name`, `email`) VALUES
+(1, 'Dr. Alice Johnson', 'staff1@university.com'),
+(2, 'Dr. Brian Lee', 'staff2@university.com'),
+(3, 'Dr. Carol White', 'staff3@university.com'),
+(4, 'Dr. David Green', 'staff4@university.com'),
+(5, 'Dr. Emma Scott', 'staff5@university.com'),
+(6, 'Dr. Frank Moore', 'staff6@university.com'),
+(7, 'Dr. Grace Adams', 'staff7@university.com'),
+(8, 'Dr. Henry Clark', 'staff8@university.com'),
+(9, 'Dr. Irene Hall', 'staff9@university.com'),
+(10, 'Dr. James Wright', 'staff10@university.com'),
+(11, 'Dr. Sophia Miller', 'staff11@university.com'),
+(12, 'Dr. Benjamin Carter', 'staff12@university.com'),
+(13, 'Dr. Chloe Thompson', 'staff13@university.com'),
+(14, 'Dr. Daniel Robinson', 'staff14@university.com'),
+(15, 'Dr. Emily Davis', 'staff15@university.com'),
+(16, 'Dr. Nathan Hughes', 'staff16@university.com'),
+(17, 'Dr. Olivia Martin', 'staff17@university.com'),
+(18, 'Dr. Samuel Anderson', 'staff18@university.com'),
+(19, 'Dr. Victoria Hall', 'staff19@university.com'),
+(20, 'Dr. William Scott', 'staff20@university.com');
 
 --
 -- Indexes for dumped tables
@@ -373,7 +393,7 @@ ALTER TABLE `staff`
 -- AUTO_INCREMENT for table `admins`
 --
 ALTER TABLE `admins`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `interestedstudents`
@@ -391,7 +411,7 @@ ALTER TABLE `programmemodules`
 -- AUTO_INCREMENT for table `programmes`
 --
 ALTER TABLE `programmes`
-  MODIFY `ProgrammeID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `ProgrammeID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- Constraints for dumped tables
