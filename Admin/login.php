@@ -13,18 +13,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->execute();
         $admin = $stmt->get_result()->fetch_assoc();
 
-       if ($admin && password_verify($password, $admin['password'])) {
+  if ($admin && password_verify($password, $admin['password'])) {
     session_regenerate_id(true);
     $_SESSION['admin_id'] = $admin['id'];
-    $_SESSION['role'] = $admin['role']; 
-    header('Location: dashboard.php');
-    exit;
-}else {
-            $error = 'Invalid email or password.';
-        }
+    $_SESSION['role'] = $admin['role'];
+    $_SESSION['email']    = $admin['email'];
+    $_SESSION['staff_id'] = $admin['staff_id'];
+
+    if ($admin['role'] === 'admin') {
+        header('Location: dashboard.php');
     } else {
-        $error = 'Please fill in both fields.';
+        header('Location: staff_dashboard.php');
     }
+    exit;
+}
+    }  
 }
 ?>
 <!DOCTYPE html>
