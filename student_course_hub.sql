@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 25, 2026 at 09:33 PM
+-- Generation Time: Mar 26, 2026 at 04:51 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -31,15 +31,16 @@ CREATE TABLE `admins` (
   `id` int(11) NOT NULL,
   `name` varchar(100) DEFAULT NULL,
   `email` varchar(100) DEFAULT NULL,
-  `password` varchar(255) DEFAULT NULL
+  `password` varchar(255) DEFAULT NULL,
+  `role` enum('admin','staff') DEFAULT 'staff'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `admins`
 --
 
-INSERT INTO `admins` (`id`, `name`, `email`, `password`) VALUES
-(3, 'Rajan', 'acharyarajan063@gmail.com', '$2y$10$GlWr6JOOncktqgnm42KJWegkeeu/wYN5QQQT0p4Yv4CSaVuELPgNa');
+INSERT INTO `admins` (`id`, `name`, `email`, `password`, `role`) VALUES
+(3, 'Rajan', 'acharyarajan063@gmail.com', '$2y$10$GlWr6JOOncktqgnm42KJWegkeeu/wYN5QQQT0p4Yv4CSaVuELPgNa', 'admin');
 
 -- --------------------------------------------------------
 
@@ -64,7 +65,6 @@ INSERT INTO `interestedstudents` (`InterestID`, `ProgrammeID`, `StudentName`, `E
 (2, 4, 'Jane Smith', 'jane.smith@example.com', '2026-03-24 14:26:00'),
 (3, 6, 'Alex Brown', 'alex.brown@example.com', '2026-03-24 14:26:00'),
 (4, 9, 'Priya Patel', 'priya.patel@example.com', '2026-03-24 14:26:00'),
-(5, 4, 'rajan acharya', 'acharyarajan063@gmail.com', '2026-03-24 15:03:13'),
 (10, 4, 'Rajani Shrestha', 'rajani.shrestha34@swissedu.co.uk', '2026-03-25 18:48:21');
 
 -- --------------------------------------------------------
