@@ -16,6 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
        if ($admin && password_verify($password, $admin['password'])) {
     session_regenerate_id(true);
     $_SESSION['admin_id'] = $admin['id'];
+    $_SESSION['role'] = $admin['role']; 
     header('Location: dashboard.php');
     exit;
 }else {
@@ -31,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Login — Student Course Hub</title>
+    <title>Admin & Staff Login — Student Course Hub</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -51,11 +52,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <path d="M6 12v5c3 3 9 3 12 0v-5"/>
             </svg>
         </div>
-        <span class="logo-text">Student <span>Course Hub</span></span>
+        <span class="logo-text">Niels <span>Brock University</span></span>
     </a>
 
     <h1 class="card-title">Welcome back</h1>
-    <p class="card-sub">Sign in to the admin dashboard</p>
+    <p class="card-sub">Sign in to the dashboard</p>
 
     <!-- Error -->
     <?php if ($error): ?>
@@ -83,7 +84,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     type="email"
                     id="email"
                     name="email"
-                    placeholder="acharyarajan063@gmail.com"
+                    placeholder="Example@gmail.com"
                     required
                     autocomplete="email"
                     value="<?php echo isset($_POST['email']) ? htmlspecialchars($_POST['email']) : ''; ?>"
@@ -105,7 +106,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     type="password"
                     id="password"
                     name="password"
-                    placeholder="••••••••"
+                    placeholder="********"
                     required
                     autocomplete="current-password"
                 >
