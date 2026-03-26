@@ -606,3 +606,80 @@ body {
 @media (max-width: 360px) {
     .stat-grid { grid-template-columns: 1fr; }
 }
+
+
+/* ===== STAFF PAGE STYLING ===== */
+
+.staff-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.staff-title {
+    font-size: 22px;
+    font-weight: 600;
+}
+
+.staff-btn {
+    padding: 8px 14px;
+    border-radius: 20px;
+    background: linear-gradient(90deg, #00c6ff, #0072ff);
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+.staff-btn:hover {
+    transform: scale(1.05);
+}
+
+/* Table Styling */
+.table-wrap {
+    background: rgba(255,255,255,0.03);
+    border-radius: 14px;
+    overflow: hidden;
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.data-table th {
+    text-align: left;
+    padding: 14px;
+    font-size: 13px;
+    color: #aaa;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.data-table td {
+    padding: 14px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.data-table tr:hover {
+    background: rgba(255,255,255,0.03);
+}
+
+/* Action buttons */
+.action-btn {
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    border: none;
+    cursor: pointer;
+}
+
+.edit-btn {
+    background: #5eb8f7;
+    color: white;
+}
+
+.delete-btn {
+    background: #ff6b6b;
+    color: white;
+}
