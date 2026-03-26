@@ -183,3 +183,6 @@ $total = count($rows);
 
 </body>
 </html>
+<?php if ($isAdmin): ?>
+    <button>Add Student</button>
+<?php endif; ?>
