@@ -22,6 +22,7 @@
         <li><a href="index.php">Home</a></li>
         <li><a href="#courses">Courses</a></li>
         <li><a href="#register">Register</a></li>
+        <li><a href="#withdraw">Withdraw</a></li>
         <li><a href="#contact">Contact</a></li>
         <li><a href="Admin/login.php" class="nav-admin">Admin</a></li>
     </ul>
@@ -166,8 +167,71 @@ $total  = $result->num_rows;
 </section>
 </main>
 
-<!-- ─── REGISTER SECTION ─────────────────────────────────────── -->
+<!-- ─── REGISTER + WITHDRAW SECTION ─────────────────────────── -->
 <?php
+// ── Withdraw logic ────────────────────────────────────────────
+$withdrawMsg  = '';
+$withdrawType = 'success';
+$withdrawRegistrations = [];
+$withdrawEmail = '';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['withdraw_lookup'])) {
+    $withdrawEmail = trim($_POST['withdraw_email'] ?? '');
+    if (!$withdrawEmail || !filter_var($withdrawEmail, FILTER_VALIDATE_EMAIL)) {
+        $withdrawMsg  = 'Please enter a valid email address.';
+        $withdrawType = 'error';
+    } else {
+        $ws = $conn->prepare(
+            "SELECT i.InterestID, i.StudentName, p.ProgrammeName, l.LevelName
+             FROM InterestedStudents i
+             JOIN Programmes p ON i.ProgrammeID = p.ProgrammeID
+             LEFT JOIN Levels l ON p.LevelID = l.LevelID
+             WHERE i.Email = ?
+             ORDER BY i.RegisteredAt DESC"
+        );
+        $ws->bind_param('s', $withdrawEmail);
+        $ws->execute();
+        $withdrawRegistrations = $ws->get_result()->fetch_all(MYSQLI_ASSOC);
+        $ws->close();
+        if (empty($withdrawRegistrations)) {
+            $withdrawMsg  = 'No registrations found for that email address.';
+            $withdrawType = 'error';
+        }
+    }
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['withdraw_confirm'])) {
+    $interestId    = (int)($_POST['interest_id'] ?? 0);
+    $withdrawEmail = trim($_POST['confirm_email'] ?? '');
+    if ($interestId > 0 && $withdrawEmail) {
+        $wd = $conn->prepare("DELETE FROM InterestedStudents WHERE InterestID = ? AND Email = ?");
+        $wd->bind_param('is', $interestId, $withdrawEmail);
+        $wd->execute();
+        if ($wd->affected_rows > 0) {
+            $withdrawMsg  = '✓ Your interest has been withdrawn successfully.';
+            $withdrawType = 'success';
+        } else {
+            $withdrawMsg  = 'Could not remove that registration. Please try again.';
+            $withdrawType = 'error';
+        }
+        $wd->close();
+        // Re-fetch remaining
+        $ws2 = $conn->prepare(
+            "SELECT i.InterestID, i.StudentName, p.ProgrammeName, l.LevelName
+             FROM InterestedStudents i
+             JOIN Programmes p ON i.ProgrammeID = p.ProgrammeID
+             LEFT JOIN Levels l ON p.LevelID = l.LevelID
+             WHERE i.Email = ?
+             ORDER BY i.RegisteredAt DESC"
+        );
+        $ws2->bind_param('s', $withdrawEmail);
+        $ws2->execute();
+        $withdrawRegistrations = $ws2->get_result()->fetch_all(MYSQLI_ASSOC);
+        $ws2->close();
+    }
+}
+
+// ── Register logic ────────────────────────────────────────────
 $message     = '';
 $messageType = 'success';
 
@@ -203,6 +267,8 @@ while ($r = $progRes->fetch_assoc()) $progOpts[] = $r;
 
 <section class="register-section" id="register">
     <div class="register-inner">
+
+        <!-- ── REGISTER FORM ── -->
         <p class="register-eyebrow">Get in touch</p>
         <h2 class="register-title">Register your interest</h2>
         <p class="register-sub">Sign up to receive open day invitations, application deadline reminders, and programme updates.</p>
@@ -258,6 +324,81 @@ while ($r = $progRes->fetch_assoc()) $progOpts[] = $r;
             </div>
             <button type="submit" name="register" class="form-submit">Register Interest →</button>
         </form>
+
+        <!-- ── DIVIDER ── -->
+        <div class="section-divider" id="withdraw">
+            <span>or</span>
+        </div>
+
+        <!-- ── WITHDRAW FORM ── -->
+        <p class="register-eyebrow">Manage preferences</p>
+        <h2 class="register-title">Withdraw interest</h2>
+        <p class="register-sub">No longer interested? Enter your email to find and remove your programme registrations.</p>
+
+        <?php if ($withdrawMsg): ?>
+            <div class="alert alert-<?php echo $withdrawType; ?>" role="alert">
+                <?php echo htmlspecialchars($withdrawMsg); ?>
+            </div>
+        <?php endif; ?>
+
+        <form method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>#withdraw" novalidate>
+            <div class="form-group">
+                <label class="form-label" for="withdraw-email">Your email address</label>
+                <input
+                    class="form-input"
+                    type="email"
+                    id="withdraw-email"
+                    name="withdraw_email"
+                    placeholder="you@example.com"
+                    required
+                    autocomplete="email"
+                    value="<?php echo htmlspecialchars($withdrawEmail); ?>"
+                >
+            </div>
+            <button type="submit" name="withdraw_lookup" class="form-submit form-submit-outline">
+                Find My Registrations →
+            </button>
+        </form>
+
+        <!-- Step 2: show matching registrations -->
+        <?php if (!empty($withdrawRegistrations)): ?>
+            <div class="withdraw-list">
+                <p class="withdraw-list-label">
+                    Found <strong><?php echo count($withdrawRegistrations); ?></strong>
+                    registration<?php echo count($withdrawRegistrations) !== 1 ? 's' : ''; ?>
+                    for <strong><?php echo htmlspecialchars($withdrawEmail); ?></strong>
+                </p>
+                <?php foreach ($withdrawRegistrations as $reg): ?>
+                    <div class="withdraw-item">
+                        <div class="withdraw-item-info">
+                            <p class="withdraw-item-name"><?php echo htmlspecialchars($reg['ProgrammeName']); ?></p>
+                            <?php
+                                $isUG     = ($reg['LevelName'] ?? '') === 'Undergraduate';
+                                $badgeCls = $isUG ? 'badge-ug' : 'badge-pg';
+                            ?>
+                            <span class="course-level-badge <?php echo $badgeCls; ?>">
+                                <?php echo htmlspecialchars($reg['LevelName'] ?? 'Programme'); ?>
+                            </span>
+                        </div>
+                        <form method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>#withdraw" novalidate>
+                            <input type="hidden" name="interest_id"   value="<?php echo (int)$reg['InterestID']; ?>">
+                            <input type="hidden" name="confirm_email" value="<?php echo htmlspecialchars($withdrawEmail); ?>">
+                            <button type="submit" name="withdraw_confirm" class="btn-withdraw">
+                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+                                </svg>
+                                Withdraw
+                            </button>
+                        </form>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        <?php elseif ($withdrawEmail && empty($withdrawRegistrations) && $withdrawType === 'success'): ?>
+            <div class="alert alert-success" role="alert">
+                ✓ All registrations have been removed for this email.
+            </div>
+        <?php endif; ?>
+
     </div>
 </section>
 
