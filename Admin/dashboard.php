@@ -57,7 +57,7 @@ if ($r) while ($row = $r->fetch_assoc()) $recent[] = $row;
                     <path d="M6 12v5c3 3 9 3 12 0v-5"/>
                 </svg>
             </div>
-            <span>Course<strong>Hub</strong></span>
+            <span>Niels<strong> Brock University</strong></span>
         </div>
 
         <p class="sidebar-section-label">Navigation</p>
