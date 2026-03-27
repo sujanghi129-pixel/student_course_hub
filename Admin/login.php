@@ -2,7 +2,7 @@
 session_start();
 require_once '../config/db.php';
 
-$error = htmlspecialchars("Invalid email or password");
+$error = "";
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email    = trim($_POST['email']    ?? '');
     $password =      $_POST['password'] ?? '';
@@ -69,7 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
             </svg>
-            /* The error message is intentionally generic to avoid giving hints to potential attackers about which part of the login failed. */
+            
             <?php echo htmlspecialchars($error); ?>
         </div>
     <?php endif; ?>
@@ -86,8 +86,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <polyline points="22,6 12,13 2,6"/>
                     </svg>
                 </span>
-                // The value attribute is pre-filled with the submitted email to improve user 
-                experience in case of an error, while htmlspecialchars is used to prevent XSS attacks.
+                
                 <input
                     type="email"
                     id="email"
