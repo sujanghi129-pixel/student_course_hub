@@ -1,36 +1,27 @@
-<form method="POST">
-
-<input type="text" name="name" placeholder="Name">
-
-<input type="email" name="email" placeholder="Email">
-
-<select name="programme">
-<option value="1">Computer Science</option>
-<option value="4">Cyber Security</option>
-</select>
-
-<button type="submit">Register</button>
-
-</form>
 <?php
-
 include("config/db.php");
 
-if(isset($_POST['name'])){
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-$name=$_POST['name'];
-$email=$_POST['email'];
-$programme=$_POST['programme'];
+    // Validation
+    $name = trim($_POST['name'] ?? '');
+    $email = trim($_POST['email'] ?? '');
+    $programme = $_POST['programme'] ?? '';
 
-$sql="INSERT INTO InterestedStudents
-(ProgrammeID,StudentName,Email)
-VALUES
-('$programme','$name','$email')";
+    if ($name && $email && $programme) {
 
-$conn->query($sql);
+        // SQL Injection Protection
+        $stmt = $conn->prepare("INSERT INTO InterestedStudents (ProgrammeID, StudentName, Email) VALUES (?, ?, ?)");
+        $stmt->bind_param("iss", $programme, $name, $email);
 
-echo "Interest Registered";
+        if ($stmt->execute()) {
+            echo "Interest Registered Successfully";
+        } else {
+            echo "Error occurred";
+        }
 
+    } else {
+        echo "Please fill all fields";
+    }
 }
-
 ?>

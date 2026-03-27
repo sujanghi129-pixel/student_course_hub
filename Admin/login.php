@@ -2,31 +2,33 @@
 session_start();
 require_once '../config/db.php';
 
-$error = '';
+$error = htmlspecialchars("Invalid email or password");
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email    = trim($_POST['email']    ?? '');
     $password =      $_POST['password'] ?? '';
-
+// Basic validation
     if ($email && $password) {
         $stmt = $conn->prepare('SELECT * FROM admins WHERE email = ? LIMIT 1');
         $stmt->bind_param('s', $email);
         $stmt->execute();
         $admin = $stmt->get_result()->fetch_assoc();
+// Verify password
+        if ($admin && password_verify($password, $admin['password'])) {
+            session_regenerate_id(true);
+            $_SESSION['admin_id'] = $admin['id'];
+            $_SESSION['role'] = $admin['role'];
+            $_SESSION['email']    = $admin['email'];
+            $_SESSION['staff_id'] = $admin['staff_id'];
 
-  if ($admin && password_verify($password, $admin['password'])) {
-    session_regenerate_id(true);
-    $_SESSION['admin_id'] = $admin['id'];
-    $_SESSION['role'] = $admin['role'];
-    $_SESSION['email']    = $admin['email'];
-    $_SESSION['staff_id'] = $admin['staff_id'];
-
-    if ($admin['role'] === 'admin') {
-        header('Location: dashboard.php');
-    } else {
-        header('Location: staff_dashboard.php');
-    }
-    exit;
-}
+            if ($admin['role'] === 'admin') {
+                header('Location: dashboard.php');
+            } else {
+                header('Location: staff_dashboard.php');
+            }
+            exit;
+        } else {
+            $error = 'Invalid email or password.';
+        }
     }  
 }
 ?>
@@ -67,6 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
             </svg>
+            /* The error message is intentionally generic to avoid giving hints to potential attackers about which part of the login failed. */
             <?php echo htmlspecialchars($error); ?>
         </div>
     <?php endif; ?>
@@ -83,6 +86,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <polyline points="22,6 12,13 2,6"/>
                     </svg>
                 </span>
+                // The value attribute is pre-filled with the submitted email to improve user 
+                experience in case of an error, while htmlspecialchars is used to prevent XSS attacks.
                 <input
                     type="email"
                     id="email"
@@ -90,6 +95,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     placeholder="Example@gmail.com"
                     required
                     autocomplete="email"
+                
                     value="<?php echo isset($_POST['email']) ? htmlspecialchars($_POST['email']) : ''; ?>"
                     aria-describedby="<?php echo $error ? 'login-error' : ''; ?>"
                 >
