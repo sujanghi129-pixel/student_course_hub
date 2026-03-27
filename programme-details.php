@@ -17,7 +17,7 @@ while ($col = $columnQuery->fetch_assoc()) {
 }
 
 $requiredColumns = ['ProgrammeName', 'Description'];
-$optionalColumns = ['Duration', 'EntryRequirements', 'LearningOutcomes', 'CareerPaths', 'ImageUrl'];
+$optionalColumns = ['Duration', 'EntryRequirements', 'LearningOutcomes', 'CareerPaths', 'Image'];
 $selectColumns   = $requiredColumns;
 foreach ($optionalColumns as $opt) {
     if (in_array($opt, $columns)) $selectColumns[] = $opt;
@@ -44,7 +44,9 @@ if (!$programme) {
 }
 
 // Fallbacks
-$programmeImage            = !empty($programme['ImageUrl'])            ? $programme['ImageUrl']            : 'images/programme-placeholder.jpg';
+$programmeImage = !empty($programme['Image']) 
+    ? 'images/banners/' . $programme['Image'] 
+    : 'images/programme-placeholder.jpg';
 $programmeDescription      = !empty($programme['Description'])         ? $programme['Description']         : 'No description available yet. Please check back soon.';
 $programmeDuration         = !empty($programme['Duration'])            ? $programme['Duration']            : '3 Years';
 $programmeEntryReq         = !empty($programme['EntryRequirements'])   ? $programme['EntryRequirements']   : 'Completed secondary education, personal statement, and two references. Contact admissions for programme-specific requirements.';
